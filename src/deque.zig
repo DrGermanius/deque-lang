@@ -53,6 +53,12 @@ pub fn Deque(comptime T: type) type {
             print("\n", .{});
         }
 
+        pub fn processTokens(self: *Self, tokens: []const T, direction: Direction) !void {
+            for (tokens) |v| {
+                try self.append(try std.fmt.charToDigit(v, 10), direction);
+            }
+        }
+
         fn capEnough(self: *Self) bool {
             return self.data.len - self.right > 1;
         }

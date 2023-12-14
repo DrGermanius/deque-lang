@@ -9,13 +9,18 @@ pub fn main() !void {
     while (lines.next()) |line| {
         var it = std.mem.split(u8, line, " ");
         while (it.next()) |x| {
+            var tokens: []const u8 = undefined;
+            var direction: deque.Direction = undefined;
             if (x[0] == 33) {
-                try deq.append(try std.fmt.charToDigit(x[1], 10), .Left);
+                tokens = x[1..];
+                direction = deque.Direction.Left;
             } else if (x[x.len - 1] == 33) {
-                try deq.append(try std.fmt.charToDigit(x[0], 10), .Right);
+                tokens = x[0..x.len - 1];
+                direction = deque.Direction.Right;
             } else {
                 return;
             }
+            try deq.processTokens(tokens, direction);
         }
     }
     deq.printData();
